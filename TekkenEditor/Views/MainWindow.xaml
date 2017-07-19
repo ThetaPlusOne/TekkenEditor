@@ -1,0 +1,38 @@
+﻿<Controls:MetroWindow x:Class="TekkenEditor.MainWindow"
+		xmlns:Controls="clr-namespace:MahApps.Metro.Controls;assembly=MahApps.Metro"
+        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+        xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+        xmlns:local="clr-namespace:TekkenEditor"
+        mc:Ignorable="d"
+        Title="Tekken Editor"
+		Height="520.559" 
+		Width="1032.867"
+        BorderThickness="1"
+		DataContext="{Binding Main, Source={StaticResource Locator}}"
+						  >
+	<Grid Margin="0,0,-10,-52">
+
+
+
+		<Grid HorizontalAlignment="Left" Height="100" VerticalAlignment="Top" Width="100"/>
+		<DockPanel HorizontalAlignment="Left" Height="493" VerticalAlignment="Top" Width="145" Margin="10,0,0,0"  LastChildFill="true" >
+			<StackPanel>
+
+				<StackPanel.Resources>
+					<Style TargetType="{x:Type Button}">
+						<Setter Property="Margin" Value="0,10,0,0"/>
+
+					</Style>
+				</StackPanel.Resources>
+
+				<Button Command="{Binding OpenCommand}" >Load Customize File</Button>
+				<Button  Command="{Binding SaveCommand}">Save </Button>
+			</StackPanel>
+		</DockPanel>
+		<Frame x:Name="MainFrame" Source="DefaultPage.xaml" HorizontalAlignment="Left" Height="428" Margin="215,32,0,0" VerticalAlignment="Top" Width="776"   NavigationUIVisibility="Hidden" />
+		
+	</Grid>
+
+</Controls:MetroWindow>

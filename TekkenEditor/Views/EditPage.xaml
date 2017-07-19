@@ -1,0 +1,54 @@
+﻿<Page
+      xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+      xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+      xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
+      xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
+	xmlns:i="clr-namespace:System.Windows.Interactivity;assembly=System.Windows.Interactivity"
+      xmlns:local="clr-namespace:TekkenEditor"
+	
+      xmlns:Custom="http://metro.mahapps.com/winfx/xaml/controls"
+	xmlns:cmd="http://www.galasoft.ch/mvvmlight" x:Class="TekkenEditor.EditPage"
+      mc:Ignorable="d" 
+      d:DesignHeight="400" d:DesignWidth="780"
+	DataContext="{Binding editPageViewModel, Source={StaticResource Locator}}"
+		
+      Title="SlotEdit">
+	<Page.Resources>
+		<local:BitmapToImageConverter x:Key="ImageConverter" />
+
+	</Page.Resources>
+	<i:Interaction.Triggers>
+		<i:EventTrigger EventName="Loaded">
+			<cmd:EventToCommand PassEventArgsToCommand="True" Command="{Binding LoadedCommand}" />
+		</i:EventTrigger>
+	</i:Interaction.Triggers>
+	<Grid>
+		<Image x:Name="characterImage" Source="{Binding Thumbnail, Converter={StaticResource ImageConverter}, Mode=TwoWay}" Margin="632,0,0,210" Width="148" Height="190"/>
+		<Button Content="DONE" HorizontalAlignment="Left" Margin="372,358,0,0" VerticalAlignment="Top" Width="75"  Command="{Binding DoneCommand}"/>
+		<Button Content="Change Image" HorizontalAlignment="Left" Margin="632,195,0,0" VerticalAlignment="Top" Width="148"  Command="{Binding ChangeImageCommand}"/>
+		<Button Content="CANCEL" HorizontalAlignment="Left" Margin="473,358,0,0" VerticalAlignment="Top" Width="75" Command="{Binding BackCommand}"/>
+		<TabControl  ItemsSource="{Binding WrappedItems}"  HorizontalAlignment="Left" Height="272" Margin="27,32,0,0" VerticalAlignment="Top" Width="521"  TabStripPlacement="Left"  >
+			<TabControl.ItemTemplate>
+				<DataTemplate>
+					<TextBlock
+                    Text="{Binding Header}" FontSize="12"/>
+				</DataTemplate>
+			</TabControl.ItemTemplate>
+			<TabControl.ContentTemplate>
+				<DataTemplate>
+					<StackPanel>
+						<TextBlock Text="Text ID"/>
+						<TextBox Text="{Binding ItemId,  Mode=TwoWay}"/>
+						<TextBlock Text="Colours"/>
+						<DataGrid ItemsSource="{Binding Colors, Mode=TwoWay}" SelectedItem="{Binding SelectedColor,Mode=TwoWay,UpdateSourceTrigger=PropertyChanged}"  CanUserAddRows="False" />
+					
+					</StackPanel>
+					
+				</DataTemplate>
+			</TabControl.ContentTemplate>
+		</TabControl>
+
+
+
+	</Grid>
+</Page>

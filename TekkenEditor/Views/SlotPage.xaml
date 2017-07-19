@@ -1,0 +1,89 @@
+﻿<Page x:Class="TekkenEditor.SlotPage"
+	  x:Name="root"
+      xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+      xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+      xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
+      xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
+      xmlns:local="clr-namespace:TekkenEditor"
+	  	xmlns:i="clr-namespace:System.Windows.Interactivity;assembly=System.Windows.Interactivity"
+	  xmlns:cmd="http://www.galasoft.ch/mvvmlight"
+	  mc:Ignorable="d" 
+      d:DesignHeight="445" d:DesignWidth="801"
+	  DataContext="{Binding slotPageViewModel, Source={StaticResource Locator}}"
+      Title="slotPage">
+	<Page.Resources>
+		<local:BitmapToImageConverter x:Key="ImageConverter" />
+
+	</Page.Resources>
+	<i:Interaction.Triggers>
+		<i:EventTrigger EventName="Loaded">
+			<cmd:EventToCommand PassEventArgsToCommand="True" Command="{Binding LoadedCommand}" />
+		</i:EventTrigger>
+	</i:Interaction.Triggers>
+	<Grid >
+		<ComboBox x:Name="characterBox" 
+				ItemsSource="{Binding CharacterList}"
+				SelectedItem="{Binding SelectedCharName, Mode=OneWayToSource}" 
+				HorizontalAlignment="Left" 
+				Margin="561,7,0,0" 
+				VerticalAlignment="Top" 
+				Width="139" 
+				IsEditable="True"
+				IsReadOnly="True" 
+				Text="Select a Function">
+
+		</ComboBox>
+		<FrameworkElement x:Name="dummyControl" Visibility="Collapsed"/>
+		<ListBox x:Name="SlotListBox" ItemsSource="{Binding CostumeList}" SelectedItem="{Binding SelectedCosume, Mode=OneWayToSource}" SelectedIndex="{Binding SlotIndex}" HorizontalAlignment="Left" Width="762" VerticalAlignment="Top" Height="390" ScrollViewer.VerticalScrollBarVisibility="Disabled" 
+				 ScrollViewer.HorizontalScrollBarVisibility="Disabled" IsSynchronizedWithCurrentItem="False"   Margin="0,40,0,0" >
+			<ListBox.Resources>
+				<Style x:Key="EditItemContextMenuStyle" TargetType="MenuItem">
+				</Style>
+			</ListBox.Resources>
+			<ListBox.ItemsPanel>
+				<ItemsPanelTemplate>
+					<UniformGrid Rows="2" Columns="5" />
+				</ItemsPanelTemplate>
+			</ListBox.ItemsPanel>
+			<ListBox.ItemContainerStyle>
+				<Style TargetType="ListBoxItem">
+					<Style.Triggers>
+						<EventTrigger RoutedEvent="ListBoxItem.MouseDoubleClick">
+							<EventTrigger.Actions>
+								<BeginStoryboard>
+									<Storyboard>
+										<BooleanAnimationUsingKeyFrames Storyboard.TargetProperty="ContextMenu.IsOpen">
+											<DiscreteBooleanKeyFrame KeyTime="0:0:0" Value="True"/>
+										</BooleanAnimationUsingKeyFrames>
+									</Storyboard>
+								</BeginStoryboard>
+							</EventTrigger.Actions>
+						</EventTrigger>
+					</Style.Triggers>
+					<Setter Property="ContextMenu">
+						<Setter.Value>
+
+							<ContextMenu>
+								<MenuItem Header="Edit" Command="{Binding Path=DataContext.EditCommand, Source={x:Reference dummyControl}}"/>
+								<MenuItem Header="Save Json" Command="{Binding Path=DataContext.SaveJsonCommand,  Source={x:Reference dummyControl}}" />
+								<MenuItem Header="Save Json With Thumbnail" Command="{Binding Path=DataContext.SaveJsonWithImgCommand,  Source={x:Reference dummyControl}}" />
+								<MenuItem Header="Load Json" Command="{Binding Path=DataContext.LoadJsonCommand,  Source={x:Reference dummyControl}}" />
+							</ContextMenu>
+						</Setter.Value>
+					</Setter>
+				</Style>
+			</ListBox.ItemContainerStyle>
+
+			<ListBox.ItemTemplate>
+				<DataTemplate>
+					<Image Source="{Binding Thumbnail ,Converter={StaticResource ImageConverter }}" Width="148" Height="190">
+					</Image>
+				</DataTemplate>
+			</ListBox.ItemTemplate>
+
+
+		</ListBox>
+
+
+	</Grid>
+</Page>
